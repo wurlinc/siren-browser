@@ -181,7 +181,14 @@
 {{#links}}
   <tr>
     <td>{{rel}}</td>
-    <td><a href='{{href}}'>{{href}}</a></td>
+    <td><a class='api_link' href='{{href}}'>{{href}}</a></td>
+  </tr>
+{{/links}}
+{{^links}}
+  <tr>
+    <td colspan="2" style='text-align:center'>
+      no links
+    </td>
   </tr>
 {{/links}}
 </script>
