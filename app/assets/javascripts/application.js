@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require foundation
 //= require URI
+//= require jquery-Mustache
+//= require mustache
 //= require_tree .

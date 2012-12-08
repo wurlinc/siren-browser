@@ -1,180 +1,187 @@
 <!-- Top Bar -->
 
-  <nav class="top-bar">
-    <ul>
-      <!-- Title Area -->
-      <li class="name">
-        <h1>
-          <a href="/">
-            Siren Browser
-          </a>
-        </h1>
+<nav class="top-bar">
+  <ul>
+    <!-- Title Area -->
+    <li class="name">
+      <h1>
+        <a href="/">
+          Siren Browser
+        </a>
+      </h1>
+    </li>
+    <li class="toggle-nav"><a href="#"></a></li>
+  </ul>
+
+  <section>
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li class="divider"></li>
+      <li class="">
+        <a id="go_to_root_uri" href="#">Go To Root URI</a>
       </li>
-      <li class="toggle-nav"><a href="#"></a></li>
+      <li class="divider"></li>
+      <li><a href="#">About</a></li>
+      <li class="divider"></li>
     </ul>
+  </section>
+</nav>
 
-    <section>
-      <!-- Right Nav Section -->
-      <ul class="right">
-        <li class="divider"></li>
-        <li class="">
-          <a id="go_to_root_uri" href="#">Go To Root URI</a>
-        </li>
-        <li class="divider"></li>
-        <li><a href="#">About</a></li>
-        <li class="divider"></li>
-      </ul>
-    </section>
-  </nav>
-
-  <!-- End Top Bar -->
+<!-- End Top Bar -->
 
 
-  <!-- Main Page Content and Sidebar -->
+<!-- Main Page Content and Sidebar -->
 
-  <!-- Current URI -->
-  <div class="row collapse">
-      <form>
-        <fieldset>
-          <legend>Current URI</legend>
-          <div class="six columns">
-            <input id='current_uri' type="text" placeholder="http://api.example.com" />
-          </div>
-          <div class="one columns">
-            <a class="button expand success postfix">Go</a>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-  </div>
-
-  <!-- properties -->
-  <div class="row">
-    <div class="five columns">
-      <h3>Properties</h3>
-      <table id='properties' class="">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>name</td>
-            <td>John Doe asda sdas das dasd asd</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="seven columns">
-      <h3>Actions</h3>
-      <table id='actions' class="">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Href</th>
-            <th>Invoke</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Add Item</td>
-            <td>http://api.example.com/orders/1/items</td>
-            <td><a class="tiny button" href="#">POST</a></td>
-          </tr>
-          <tr>
-            <td>Update Item</td>
-            <td>http://api.example.com/orders/1/items/1</td>
-            <td><a class="tiny button" href="#">PATCH</a></td>
-          </tr>
-          <tr>
-            <td>Delete Item</td>
-            <td>http://api.example.com/orders/1/items/1</td>
-            <td><a class="tiny alert button" href="#">DELETE</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Entities -->
-  <div class="row">
-
-    <div class="twelve columns">
-      <h3>Entities</h3>
-      <table id='entities' class="twelve">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Rel</th>
-            <th>Href</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>info customer</td>
-            <td>http://x.io/rels/customer</td>
-            <td><a class='success' href="http://api.x.io/customers/pj123">http://api.x.io/customers/pj123</a></td>
-            <td><span class='label'>embedded</span></td>
-          </tr>
-          <tr>
-            <td>items collection</td>
-            <td>http://x.io/rels/order-items</td>
-            <td>http://api.x.io/orders/42/items</td>
-            <td><span class='label'>link</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-
-
-  
-  <!-- Links -->
-  <div class="row">
-
-    <div class="twelve columns">
-      <h3>Links</h3>
-      <table id='links' class="twelve">
-        <thead>
-          <tr>
-            <th>Rel</th>
-            <th>Href</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>self</td>
-            <td><a href='#'>http://api.example.com/users/1</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-  <!-- End Main Content and Sidebar -->
-
-
-  <!-- Footer -->
-
-  <footer class="row">
-    <div class="twelve columns">
-      <hr />
-      <div class="row">
+<!-- Current URI -->
+<div class="row collapse">
+    <form>
+      <fieldset>
+        <legend>Current URI</legend>
         <div class="six columns">
-          <p>&copy; Copyright <a href="http://wurl.com">Wurl</a>.</p>
+          <input id='current_uri' type="text" placeholder="http://api.example.com" />
         </div>
-        <div class="six columns">
+        <div class="one columns">
+          <a id='go_button' class="button expand success postfix">Go</a>
         </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+<!-- properties -->
+<div class="row">
+  <div class="five columns">
+    <h3>Properties</h3>
+    <table id='properties' class="">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>name</td>
+          <td>John Doe asda sdas das dasd asd</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="seven columns">
+    <h3>Actions</h3>
+    <table id='actions' class="">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Href</th>
+          <th>Invoke</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Add Item</td>
+          <td>http://api.example.com/orders/1/items</td>
+          <td><a class="tiny button" href="#">POST</a></td>
+        </tr>
+        <tr>
+          <td>Update Item</td>
+          <td>http://api.example.com/orders/1/items/1</td>
+          <td><a class="tiny button" href="#">PATCH</a></td>
+        </tr>
+        <tr>
+          <td>Delete Item</td>
+          <td>http://api.example.com/orders/1/items/1</td>
+          <td><a class="tiny alert button" href="#">DELETE</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Entities -->
+<div class="row">
+
+  <div class="twelve columns">
+    <h3>Entities</h3>
+    <table id='entities' class="twelve">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Rel</th>
+          <th>Href</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>info customer</td>
+          <td>http://x.io/rels/customer</td>
+          <td><a class='success' href="http://api.x.io/customers/pj123">http://api.x.io/customers/pj123</a></td>
+          <td><span class='label'>embedded</span></td>
+        </tr>
+        <tr>
+          <td>items collection</td>
+          <td>http://x.io/rels/order-items</td>
+          <td>http://api.x.io/orders/42/items</td>
+          <td><span class='label'>link</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
+
+<!-- Links -->
+<div class="row">
+
+  <div class="twelve columns">
+    <h3>Links</h3>
+    <table id='links' class="twelve">
+      <thead>
+        <tr>
+          <th>Rel</th>
+          <th>Href</th>
+        </tr>
+      </thead>
+      <tbody id='links_body'>
+        <tr>
+          <td>self</td>
+          <td><a href='#'>http://api.example.com/users/1</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- End Main Content and Sidebar -->
+
+
+<!-- Footer -->
+
+<footer class="row">
+  <div class="twelve columns">
+    <hr />
+    <div class="row">
+      <div class="six columns">
+        <p>&copy; Copyright <a href="http://wurl.com">Wurl</a>.</p>
+      </div>
+      <div class="six columns">
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <!-- End Footer -->
-
+<!-- End Footer -->
+<script id='link_rows' type="text/html" />
+{{#links}}
+  <tr>
+    <td>{{rel}}</td>
+    <td><a href='{{href}}'>{{href}}</a></td>
+  </tr>
+{{/links}}
+</script>
