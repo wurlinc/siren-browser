@@ -8,7 +8,7 @@ class SirenBrowserApp
     # views
     @go_button_view = new GoButtonView(el: '#go_button', model: @current_uri, app:this)
     @current_uri_view = new CurrentUriView(el: '#current_uri', model: @current_uri, go_button_view: @go_button_view)
-    @siren_response_view = new SirenResponseLinksView(el:'#links', model:@current_response)
+    @siren_response_view = new SirenResponseLinksView(el:'#links', app:this, model:@current_response)
 
     # trigger some initialization
 
@@ -18,6 +18,9 @@ class SirenBrowserApp
     @current_uri_view.update_current_uri()
     # trigger rendering the empty response views
     @current_response.set('data', {})
+
+  set_current_uri:(uri) ->
+    @current_uri.set('uri', uri)
 
   request_current_uri: ->
     @get()
@@ -50,10 +53,20 @@ class CurrentUri extends Backbone.Model
 class SirenResponseLinksView extends Backbone.View
   initialize:(options) ->
     @model.bind('change', @render, this)
+    @app = options.app
+
+  events:
+    "click .api_link" : "update_current_uri_and_request"
 
   render: ->
     console.debug('rendering SirenResponseLinksView')
     @$el.find('#links_body').mustache('links_template', @model.get('data'), { method: 'html' })
+
+  update_current_uri_and_request: (event) ->
+    event.preventDefault()
+    url = $(event.target).attr('href')
+    @app.set_current_uri(url)
+    @app.request_current_uri()
 
 
 class CurrentUriView extends Backbone.View
