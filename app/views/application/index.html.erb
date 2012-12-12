@@ -17,10 +17,6 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="divider"></li>
-      <li class="">
-        <a id="go_to_root_uri" href="#">Go To Root URI</a>
-      </li>
-      <li class="divider"></li>
       <li><a href="#">About</a></li>
       <li class="divider"></li>
     </ul>
@@ -59,7 +55,11 @@
           <th>Value</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id='properties_body'>
+        <tr>
+          <td>name</td>
+          <td>John Doe asda sdas das dasd asd</td>
+        </tr>
         <tr>
           <td>name</td>
           <td>John Doe asda sdas das dasd asd</td>
@@ -177,7 +177,7 @@
 </footer>
 
 <!-- End Footer -->
-<script id='links_template' type="text/html" />
+<script id='links_template' type="text/x-handlebars-template" />
 {{#links}}
   <tr>
     <td>{{rel}}</td>
@@ -192,3 +192,21 @@
   </tr>
 {{/links}}
 </script>
+
+<script id='properties_template' type="text/x-handlebars-template" />
+{{#key_value properties}}
+  <tr>
+    <td>{{key}}</td>
+    <td>{{value}}</td>
+  </tr>
+{{/key_value}}
+{{^properties}}
+  <tr>
+    <td colspan="2" style='text-align:center'>
+      no properties
+    </td>
+  </tr>
+{{/properties}}
+</script>
+
+

@@ -16,6 +16,5 @@
 //= require underscore
 //= require backbone
 //= require URI
-//= require jquery-Mustache
-//= require mustache
+//= require handlebars
 //= require_tree .

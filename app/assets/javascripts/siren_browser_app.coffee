@@ -8,12 +8,13 @@ class SirenBrowserApp
     # views
     @go_button_view = new GoButtonView(el: '#go_button', model: @current_uri, app:this)
     @current_uri_view = new CurrentUriView(el: '#current_uri', model: @current_uri, go_button_view: @go_button_view)
-    @siren_response_view = new SirenResponseLinksView(el:'#links', app:this, model:@current_response)
+    @siren_links_view = new SirenResponseLinksView(el:'#links', app:this, model:@current_response)
+    @siren_properties_view = new SirenResponsePropertiesView(el:'#properties', app:this, model:@current_response)
 
     # trigger some initialization
 
     # load all the mustache templates
-    $.Mustache.addFromDom()
+    #$.Mustache.addFromDom()
     # make sure the current uri is synced with the DOM
     @current_uri_view.update_current_uri()
     # trigger rendering the empty response views
@@ -49,18 +50,30 @@ class CurrentUri extends Backbone.Model
   defaults:
     uri: null
 
+class SirenResponsePropertiesView extends Backbone.View
+  initialize:(options) ->
+    @model.bind('change', @render, this)
+    @app = options.app
+    @template = Handlebars.compile($('#properties_template').html())
+
+  render: ->
+    console.debug('rendering SirenResponsePropertiesView')
+    results = @template(@model.get('data'))
+    @$el.find('#properties_body').html(results)
 
 class SirenResponseLinksView extends Backbone.View
   initialize:(options) ->
     @model.bind('change', @render, this)
     @app = options.app
+    @template = Handlebars.compile($('#links_template').html())
 
   events:
     "click .api_link" : "update_current_uri_and_request"
 
   render: ->
     console.debug('rendering SirenResponseLinksView')
-    @$el.find('#links_body').mustache('links_template', @model.get('data'), { method: 'html' })
+    results = @template(@model.get('data'))
+    @$el.find('#links_body').html(results)
 
   update_current_uri_and_request: (event) ->
     event.preventDefault()
@@ -103,8 +116,8 @@ class GoButtonView extends Backbone.View
     "click" : "click"
 
   click:(event) ->
-    console.debug('button clicked')
     @app.request_current_uri()
+
 
 ############################
 # Start the app on page load
