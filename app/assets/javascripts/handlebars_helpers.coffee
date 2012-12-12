@@ -21,3 +21,13 @@ Handlebars.registerHelper("action_link_classes", (obj, options) ->
   return classes
 )
 
+Handlebars.registerHelper("debug", (obj, options) ->
+  console.log("Current Context")
+  console.log("====================")
+  console.log(this)
+  if (obj)
+    console.log("Helper Context")
+    console.log("====================")
+    console.log(obj)
+)
+
