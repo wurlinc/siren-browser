@@ -26,7 +26,7 @@
 <!-- End Top Bar -->
 
 
-<!-- Main Page Content and Sidebar -->
+<!-- Main Page Content -->
 
 <!-- Current URI -->
 <div class="row collapse">
@@ -68,35 +68,50 @@
     </table>
   </div>
 
-  <div class="seven columns">
+  <div class="four columns">
+    <h3>Links</h3>
+    <table id='links' class="twelve">
+      <thead>
+        <tr>
+          <th>Rel</th>
+          <th>Href</th>
+        </tr>
+      </thead>
+      <tbody id='links_body'>
+        <tr>
+          <td>self</td>
+          <td><a class='api_link' href='http://localhost:5100/users/1'>http://api.example.com/users/1</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="three columns">
     <h3>Actions</h3>
     <table id='actions' class="">
       <thead>
         <tr>
           <th>Title</th>
-          <th>Href</th>
           <th>Invoke</th>
         </tr>
       </thead>
       <tbody id="actions_body">
         <tr>
           <td>Add Item</td>
-          <td>http://api.example.com/orders/1/items</td>
           <td><a class="tiny button" href="#">POST</a></td>
         </tr>
         <tr>
           <td>Update Item</td>
-          <td>http://api.example.com/orders/1/items/1</td>
           <td><a class="tiny button" href="#">PATCH</a></td>
         </tr>
         <tr>
           <td>Delete Item</td>
-          <td>http://api.example.com/orders/1/items/1</td>
           <td><a class="tiny alert button" href="#">DELETE</a></td>
         </tr>
       </tbody>
     </table>
   </div>
+
 </div>
 
 <!-- Entities -->
@@ -132,33 +147,7 @@
 
 </div>
 
-
-
-
-<!-- Links -->
-<div class="row">
-
-  <div class="twelve columns">
-    <h3>Links</h3>
-    <table id='links' class="twelve">
-      <thead>
-        <tr>
-          <th>Rel</th>
-          <th>Href</th>
-        </tr>
-      </thead>
-      <tbody id='links_body'>
-        <tr>
-          <td>self</td>
-          <td><a class='api_link' href='http://localhost:5100/users/1'>http://api.example.com/users/1</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-</div>
-
-<!-- End Main Content and Sidebar -->
+<!-- End Main Content -->
 
 
 <!-- Footer -->
@@ -235,7 +224,6 @@
 {{#actions}}
   <tr>
     <td>{{title}}</td>
-    <td>{{href}}</td>
     <td>
       {{>action_link}}
     </td>
@@ -243,7 +231,7 @@
 {{/actions}}
 {{^actions}}
   <tr>
-    <td colspan="3" style='text-align:center'>
+    <td colspan="2" style='text-align:center'>
       no actions
     </td>
   </tr>
