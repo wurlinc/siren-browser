@@ -11,11 +11,13 @@ class SirenBrowserApp
     @siren_links_view = new SirenResponseLinksView(el:'#links', app:this, model:@current_response)
     @siren_properties_view = new SirenResponsePropertiesView(el:'#properties', app:this, model:@current_response)
     @siren_entities_view = new SirenResponseEntitiesView(el:'#entities', app:this, model:@current_response)
+    @siren_actions_view = new SirenResponseActionsView(el:'#actions', app:this, model:@current_response)
 
     # trigger some initialization
 
-    # load all the mustache templates
-    #$.Mustache.addFromDom()
+    # load partials
+    @register_partial(partial) for partial in $('script.partial')
+
     # make sure the current uri is synced with the DOM
     @current_uri_view.update_current_uri()
     # trigger rendering the empty response views
@@ -40,6 +42,11 @@ class SirenBrowserApp
 
   request_error:(jqXHR, textStatus, errorThrown) =>
     console.warn("request error: #{textStatus} #{errorThrown}")
+
+  # partial is a selector or jquery object for the script template
+  # The script's id attribute will be used as the partial name
+  register_partial:(partial) ->
+    Handlebars.registerPartial($(partial).attr('id'), $(partial).html())
 
 
 
@@ -81,6 +88,26 @@ class SirenResponseEntitiesView extends Backbone.View
     url = $(event.target).attr('href')
     @app.set_current_uri(url)
     @app.request_current_uri()
+
+class SirenResponseActionsView extends Backbone.View
+  initialize:(options) ->
+    @model.bind('change', @render, this)
+    @app = options.app
+    @template = Handlebars.compile($('#actions_template').html())
+
+  events:
+    "click .action_link" : "action_click"
+
+  render: ->
+    console.debug('rendering SirenResponseActionsView')
+    results = @template(@model.get('data'))
+    @$el.find('#actions_body').html(results)
+
+  action_click: (event) ->
+    event.preventDefault()
+    action_name = $(event.target).data('name')
+    console.debug("clicked #{action_name} action")
+
 
 
 class SirenResponseLinksView extends Backbone.View

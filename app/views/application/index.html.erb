@@ -78,7 +78,7 @@
           <th>Invoke</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="actions_body">
         <tr>
           <td>Add Item</td>
           <td>http://api.example.com/orders/1/items</td>
@@ -177,7 +177,7 @@
 </footer>
 
 <!-- End Footer -->
-<script id='links_template' type="text/x-handlebars-template" />
+<script id='links_template' type="text/x-handlebars-template" >
 {{#links}}
   <tr>
     <td>{{rel}}</td>
@@ -193,7 +193,7 @@
 {{/links}}
 </script>
 
-<script id='properties_template' type="text/x-handlebars-template" />
+<script id='properties_template' type="text/x-handlebars-template" >
 {{#key_value properties}}
   <tr>
     <td>{{key}}</td>
@@ -209,7 +209,7 @@
 {{/properties}}
 </script>
 
-<script id='entities_template' type="text/x-handlebars-template" />
+<script id='entities_template' type="text/x-handlebars-template" >
 {{#entities}}
   <tr>
     <td>{{class}}</td>
@@ -229,4 +229,27 @@
     </td>
   </tr>
 {{/entities}}
+</script>
+
+<script id='actions_template' type="text/x-handlebars-template" >
+{{#actions}}
+  <tr>
+    <td>{{title}}</td>
+    <td>{{href}}</td>
+    <td>
+      {{>action_link}}
+    </td>
+  </tr>
+{{/actions}}
+{{^actions}}
+  <tr>
+    <td colspan="3" style='text-align:center'>
+      no actions
+    </td>
+  </tr>
+{{/actions}}
+</script>
+
+<script id='action_link' class='partial' type="text/x-handlebars-template">
+  <a class='{{action_link_classes}} action_link' data-name="{{name}}" href='{{href}}'>{{method}}</a>
 </script>

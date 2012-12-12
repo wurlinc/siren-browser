@@ -13,4 +13,11 @@ Handlebars.registerHelper("key_value", (obj, options) ->
   return buffer
 )
 
+Handlebars.registerHelper("action_link_classes", (obj, options) ->
+  classes = "tiny button"
+  if this.method and this.method.toUpperCase() == "DELETE"
+    classes += " alert"
+
+  return classes
+)
 
