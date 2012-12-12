@@ -19,7 +19,7 @@ class SirenBrowserApp
     @register_partial(partial) for partial in $('script.partial')
 
     # make sure the current uri is synced with the DOM
-    @current_uri_view.update_current_uri()
+    @current_uri_view.set_current_uri()
     # trigger rendering the empty response views
     @current_response.set('data', {})
 
@@ -137,7 +137,7 @@ class CurrentUriView extends Backbone.View
     @go_button_view = options.go_button_view
 
   events:
-    "change" : "update_current_uri"
+    "change" : "current_uri_changed"
     "keypress" : "go_on_enter"
 
   render: ->
@@ -145,13 +145,19 @@ class CurrentUriView extends Backbone.View
     @$el.val(@model.get('uri'))
     return this
 
-  update_current_uri: (event) ->
-    console.debug("update_current_uri: #{@$el.val()}")
-    @model.set('uri', @$el.val())
+  current_uri_changed: (event) ->
+    @set_current_uri()
 
   go_on_enter:(event) ->
     if (event.keyCode == 13)
+      @set_current_uri()
       $(@go_button_view.el).click()
+
+  get_current_uri: ->
+    @$el.val()
+
+  set_current_uri: ->
+    @model.set('uri', @get_current_uri())
 
 
 # el: go button element
