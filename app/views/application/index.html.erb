@@ -113,7 +113,7 @@
           <th>Type</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id='entities_body'>
         <tr>
           <td>info customer</td>
           <td>http://x.io/rels/customer</td>
@@ -209,4 +209,24 @@
 {{/properties}}
 </script>
 
-
+<script id='entities_template' type="text/x-handlebars-template" />
+{{#entities}}
+  <tr>
+    <td>{{class}}</td>
+    <td>{{rel}}</td>
+    <td><a class='api_link' href='{{href}}'>{{href}}</a></td>
+    <td>
+      <span class="label">
+      {{#if href}}link{{else}}embedded{{/if}}
+      </span>
+    </td>
+  </tr>
+{{/entities}}
+{{^entities}}
+  <tr>
+    <td colspan="4" style='text-align:center'>
+      no entities
+    </td>
+  </tr>
+{{/entities}}
+</script>
