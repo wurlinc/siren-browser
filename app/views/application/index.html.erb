@@ -166,6 +166,43 @@
 </footer>
 
 <!-- End Footer -->
+
+
+<!-- Action Modal -->
+<div id="action_modal" class="reveal-modal expand">
+  <div id="action_submission_body">
+  </div>
+</div>
+
+
+<!-- Handlebars templates -->
+<script id="action_submission_template" type="text/x-handlebars-template">
+<a class="close-reveal-modal">&#215;</a>
+
+<h4>{{title}}</h4>
+<hr />
+<div class="row">
+  <form id="{{name}}_action_form">
+    {{#fields}}
+      <div class="row">
+        <div class="two columns">
+          <label class="inline">{{name}}</label>
+        </div>
+        <div class="ten columns">
+          <input type="{{type}}" name="{{name}}" value="{{value}}" />
+        </div>
+      </div>
+    {{/fields}}
+    {{^fields}}
+    <span>No fields provided</span>
+    {{/fields}}
+  <hr />
+  {{>action_submit}}
+  </form>
+</div>
+</script>
+
+
 <script id='links_template' type="text/x-handlebars-template" >
 {{#links}}
   <tr>
@@ -239,5 +276,8 @@
 </script>
 
 <script id='action_link' class='partial' type="text/x-handlebars-template">
-<span class="has-tip" title="{{method}} {{href}}"><a class='{{action_link_classes}} action_link' data-name="{{name}}" href='{{href}}'>{{method}}</a></span>
+<span class="has-tip" title="{{method}} {{href}}"><a class='{{action_link_classes }} action_link' data-name="{{name}}" href='{{href}}'>{{method}}</a></span>
+</script>
+<script id='action_submit' class='partial' type="text/x-handlebars-template">
+<input type="submit" class="button large {{is_alert this}}" data-name="{{name}}" href='#' value="Submit" />
 </script>

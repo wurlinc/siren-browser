@@ -11,8 +11,11 @@ class SirenBrowserApp
     @siren_links_view = new SirenResponseLinksView(el:'#links', app:this, model:@current_response)
     @siren_properties_view = new SirenResponsePropertiesView(el:'#properties', app:this, model:@current_response)
     @siren_entities_view = new SirenResponseEntitiesView(el:'#entities', app:this, model:@current_response)
-    @siren_actions_view = new SirenResponseActionsView(el:'#actions', app:this, model:@current_response)
-
+    @siren_actions_view = new SirenResponseActionsView(
+      el:'#actions'
+      app:this
+      model:@current_response
+    )
     # trigger some initialization
 
     # load partials
@@ -37,6 +40,18 @@ class SirenBrowserApp
       error: @request_error
     })
 
+
+  prompt_action_submission:(action_name) ->
+    console.debug("prompt for action: #{action_name}")
+    action_submission_view = new ActionSubmissionView(
+      el: '#action_modal'
+      app: this
+      model: @current_response
+      action_name: action_name
+    )
+
+    action_submission_view.reveal()
+
   request_success:(data, textStatus, jqXHR) =>
     @current_response.set('data', $.parseJSON(data))
 
@@ -48,11 +63,16 @@ class SirenBrowserApp
   register_partial:(partial) ->
     Handlebars.registerPartial($(partial).attr('id'), $(partial).html())
 
-
-
 class SirenResponse extends Backbone.Model
   defaults:
     data: {empty:true}
+
+  find_action:(action_name) ->
+    data = @get('data')
+    action = _.find(data.actions, (action) ->
+      action.name == action_name
+    )
+    return action
 
 class CurrentUri extends Backbone.Model
   defaults:
@@ -106,9 +126,7 @@ class SirenResponseActionsView extends Backbone.View
   action_click: (event) ->
     event.preventDefault()
     action_name = $(event.target).data('name')
-    console.debug("clicked #{action_name} action")
-
-
+    @app.prompt_action_submission(action_name)
 
 class SirenResponseLinksView extends Backbone.View
   initialize:(options) ->
@@ -129,6 +147,30 @@ class SirenResponseLinksView extends Backbone.View
     url = $(event.target).attr('href')
     @app.set_current_uri(url)
     @app.request_current_uri()
+
+class ActionSubmissionView extends Backbone.View
+  initialize:(options) ->
+    @model.bind('change', @render, this)
+    @app = options.app
+    @template = Handlebars.compile($('#action_submission_template').html())
+    @action_name = options.action_name
+    # since this view created on-demand, need to clean-up
+    @$el.bind('reveal:close', @close)
+
+  close: (event) =>
+    @model.unbind('change')
+    @$el.unbind('reveal:close')
+
+  render: ->
+    console.debug('rendering ActionSubmissionView')
+    action = @model.find_action(@action_name)
+    results = @template(action)
+    @$el.find('#action_submission_body').html(results)
+
+  reveal: ->
+    @render()
+    @$el.reveal()
+
 
 
 class CurrentUriView extends Backbone.View
@@ -158,7 +200,6 @@ class CurrentUriView extends Backbone.View
 
   set_current_uri: ->
     @model.set('uri', @get_current_uri())
-
 
 # el: go button element
 # model: current_uri model
