@@ -176,8 +176,8 @@ class ActionSubmissionView extends Backbone.View
     @$el.bind('reveal:close', @close)
 
   close: (event) =>
-    @model.unbind('change')
-    @$el.unbind('reveal:close')
+    @model.unbind('change', @render, this)
+    @$el.unbind('reveal:close', @close)
 
   render: ->
     console.debug('rendering ActionSubmissionView')
