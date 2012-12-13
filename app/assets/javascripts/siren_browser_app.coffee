@@ -28,6 +28,7 @@ class SirenBrowserApp
     @current_response.set('data', {})
 
   set_current_uri:(uri) ->
+    console.debug("SirenBrowserApp#set_current_uri(#{uri})")
     @current_uri.set('uri', uri)
 
   request_current_uri: ->
@@ -75,6 +76,9 @@ class SirenBrowserApp
     if(data)
       @current_response.set('data', data)
       message = @current_response.properties()['message']
+      rel = @current_response.find_link_by_rel('related')
+      @set_current_uri(rel.href) if rel
+
     else
       message = "An error occurred making the request. message: #{errorThrown}, status:#{textStatus}"
 
@@ -100,11 +104,22 @@ class SirenResponse extends Backbone.Model
     )
     return action
 
+  find_link_by_rel:(rel) ->
+    link = _.find(@links(), (link) ->
+      console.debug('find_link_by_rel ', link.rel)
+      link.rel == rel
+    )
+
+    return link
+
   class: ->
     return @get('data')['class']
 
   properties: ->
     return @get('data')['properties']
+
+  links: ->
+    return @get('data')['links']
 
 class CurrentUri extends Backbone.Model
   defaults:
