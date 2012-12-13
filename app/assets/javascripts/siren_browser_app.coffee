@@ -32,6 +32,16 @@ class SirenBrowserApp
   request_current_uri: ->
     @get()
 
+  submit_action:(action_name, data) ->
+    console.debug("submit_action(#{action_name}, #{data})")
+    debugger
+    action = @current_response.find_action(action_name)
+    $.ajax(action.href, {
+      type: action.method
+      success: @request_success
+      error: @request_error
+    })
+
   get: ->
     url = @current_uri.get('uri')
     console.info("GET #{url}")
@@ -149,6 +159,9 @@ class SirenResponseLinksView extends Backbone.View
     @app.request_current_uri()
 
 class ActionSubmissionView extends Backbone.View
+  events:
+    "submit .action_form" : "handle_action_form_submit"
+
   initialize:(options) ->
     @model.bind('change', @render, this)
     @app = options.app
@@ -170,6 +183,14 @@ class ActionSubmissionView extends Backbone.View
   reveal: ->
     @render()
     @$el.reveal()
+
+  handle_action_form_submit: (event) =>
+    event.preventDefault()
+    target = $(event.target)
+    action_name = target.data('name')
+    data = target.find('input').serializeArray()
+    @app.submit_action(action_name, data)
+    @$el.trigger('reveal:close')
 
 
 
