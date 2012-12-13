@@ -208,15 +208,19 @@ class ActionSubmissionView extends Backbone.View
     # since this view created on-demand, need to clean-up
     @$el.bind('reveal:close', @close)
 
+  _el_body: ->
+    return @$el.find('#action_submission_body')
+
   close: (event) =>
+    @undelegateEvents()
     @model.unbind('change', @render, this)
-    @$el.unbind('reveal:close', @close)
+    @$el.unbind('reveal:close', 'close')
 
   render: ->
     console.debug('rendering ActionSubmissionView')
     action = @model.find_action(@action_name)
     results = @template(action)
-    @$el.find('#action_submission_body').html(results)
+    @_el_body().html(results)
 
   reveal: ->
     @render()
