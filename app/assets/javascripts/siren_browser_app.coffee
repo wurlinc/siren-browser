@@ -285,6 +285,7 @@ class GoButtonView extends Backbone.View
     "click" : "click"
 
   click:(event) ->
+    @app.clear_messages()
     @app.request_current_uri()
 
 
