@@ -38,12 +38,12 @@ class SirenBrowserApp
 
   submit_action:(action_name, data) ->
     console.debug("submit_action(#{action_name}, #{data})")
-    debugger
     action = @current_response.find_action(action_name)
     $.ajax(action.href, {
       type: action.method
       success: @request_success
       error: @request_error
+      complete: @request_complete
     })
 
   get: ->
@@ -70,8 +70,19 @@ class SirenBrowserApp
     @current_response.set('data', $.parseJSON(data))
 
   request_error:(jqXHR, textStatus, errorThrown) =>
-    console.warn("request error: #{textStatus} #{errorThrown}")
-    @message_view.error({message:"An error occurred making the request. status:#{textStatus}"})
+    console.warn("SirenBrowserApp#request_error(%o, #{textStatus}, #{errorThrown})", jqXHR)
+    data = $.parseJSON(jqXHR.responseText)
+    if(data)
+      @current_response.set('data', data)
+      message = @current_response.properties()['message']
+    else
+      message = "An error occurred making the request. message: #{errorThrown}, status:#{textStatus}"
+
+    @message_view.error({message:message})
+
+  request_complete:(jqXHR, textStatus) =>
+    console.debug("SirenBrowserApp#request_complete(#{jqXHR}, #{textStatus})")
+    $(document).trigger('siren:request_complete')
 
   # partial is a selector or jquery object for the script template
   # The script's id attribute will be used as the partial name
@@ -88,6 +99,12 @@ class SirenResponse extends Backbone.Model
       action.name == action_name
     )
     return action
+
+  class: ->
+    return @get('data')['class']
+
+  properties: ->
+    return @get('data')['properties']
 
 class CurrentUri extends Backbone.Model
   defaults:
@@ -166,6 +183,7 @@ class SirenResponseLinksView extends Backbone.View
 class ActionSubmissionView extends Backbone.View
   events:
     "submit .action_form" : "handle_action_form_submit"
+    "siren:request_complete" : "close"
 
   initialize:(options) ->
     @model.bind('change', @render, this)
