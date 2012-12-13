@@ -27,6 +27,10 @@
 
 
 <!-- Main Page Content -->
+<div class="row">
+  <div id='messages'>
+  </div>
+</div>
 
 <!-- Current URI -->
 <div class="row collapse">
@@ -278,6 +282,14 @@
 <script id='action_link' class='partial' type="text/x-handlebars-template">
 <span class="has-tip" title="{{method}} {{href}}"><a class='{{action_link_classes }} action_link' data-name="{{name}}" href='{{href}}'>{{method}}</a></span>
 </script>
+
 <script id='action_submit' class='partial' type="text/x-handlebars-template">
 <input type="submit" class="button large {{is_alert this}}" data-name="{{name}}" href='#' value="Submit" />
+</script>
+
+<script id='error_message' class='partial' type="text/x-handlebars-template">
+<div class='alert-box alert'>
+  {{message}}
+  <a href="" class="close">&times;</a>
+</div>
 </script>

@@ -16,6 +16,7 @@ class SirenBrowserApp
       app:this
       model:@current_response
     )
+    @message_view = new MessageView(el:'#messages', app:this)
     # trigger some initialization
 
     # load partials
@@ -31,6 +32,9 @@ class SirenBrowserApp
 
   request_current_uri: ->
     @get()
+
+  clear_messages: ->
+    @message_view.clear()
 
   submit_action:(action_name, data) ->
     console.debug("submit_action(#{action_name}, #{data})")
@@ -67,6 +71,7 @@ class SirenBrowserApp
 
   request_error:(jqXHR, textStatus, errorThrown) =>
     console.warn("request error: #{textStatus} #{errorThrown}")
+    @message_view.error({message:"An error occurred making the request. status:#{textStatus}"})
 
   # partial is a selector or jquery object for the script template
   # The script's id attribute will be used as the partial name
@@ -192,7 +197,17 @@ class ActionSubmissionView extends Backbone.View
     @app.submit_action(action_name, data)
     @$el.trigger('reveal:close')
 
+class MessageView extends Backbone.View
+  initialize:(options) ->
+    @app = options.app
+    @error_template = Handlebars.compile($('#error_message').html())
 
+  error:(data) ->
+    results = @error_template(data)
+    @$el.html(results)
+
+  clear: ->
+    @$el.html("")
 
 class CurrentUriView extends Backbone.View
   initialize:(options) ->
