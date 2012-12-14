@@ -84,7 +84,7 @@ class SirenBrowserApp
 
   request_error:(jqXHR, textStatus, errorThrown) =>
     console.warn("SirenBrowserApp#request_error(%o, #{textStatus}, #{errorThrown})", jqXHR)
-    data = @parse_json(data)
+    data = @parse_json(jqXHR.responseText)
     if(data)
       @current_response.set('data', data)
       message = @current_response.properties()['message']
