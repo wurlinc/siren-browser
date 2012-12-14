@@ -51,10 +51,20 @@ class SirenBrowserApp
     url = @current_uri.get('uri')
     console.info("GET #{url}")
     $.ajax(url, {
+      type: 'GET',
+      data: 'json',
       success: @request_success,
       error: @request_error
     })
 
+  # if data is a string, parse
+  # because in some browsers jquery
+  # is returning a string
+  parse_json:(data) ->
+    if (typeof data) == "string"
+      data = $.parseJSON(data)
+
+    return data
 
   prompt_action_submission:(action_name) ->
     console.debug("prompt for action: #{action_name}")
@@ -68,11 +78,13 @@ class SirenBrowserApp
     action_submission_view.reveal()
 
   request_success:(data, textStatus, jqXHR) =>
-    @current_response.set('data', $.parseJSON(data))
+    data = @parse_json(data)
+
+    @current_response.set('data', data)
 
   request_error:(jqXHR, textStatus, errorThrown) =>
     console.warn("SirenBrowserApp#request_error(%o, #{textStatus}, #{errorThrown})", jqXHR)
-    data = $.parseJSON(jqXHR.responseText)
+    data = @parse_json(data)
     if(data)
       @current_response.set('data', data)
       message = @current_response.properties()['message']
