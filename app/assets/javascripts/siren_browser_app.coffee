@@ -52,7 +52,6 @@ class SirenBrowserApp
     console.info("GET #{url}")
     $.ajax(url, {
       type: 'GET',
-      data: 'json',
       success: @request_success,
       error: @request_error
     })
