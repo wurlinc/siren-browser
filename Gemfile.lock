@@ -194,9 +194,8 @@ DEPENDENCIES
   foreman
   jasmine-rails
   jquery-rails
-  rails (= 3.2.11)
   omniauth-oauth2
-  rails (= 3.2.9)
+  rails (= 3.2.11)
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
