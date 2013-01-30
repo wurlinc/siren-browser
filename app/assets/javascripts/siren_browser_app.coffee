@@ -50,9 +50,9 @@ class SirenBrowserApp
   get: ->
     url = @current_uri.get('uri')
     console.info("GET #{url}")
-    $.ajax(url, {
+    $.ajax('/get_data', {
       type: 'GET',
-      data: 'json',
+      data: {'url': url},
       success: @request_success,
       error: @request_error
     })

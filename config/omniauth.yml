@@ -1,0 +1,15 @@
+development:
+  oauth_host: 'http://localhost:5100'
+  app_id: 94a14a0965f78b35f482c3f4cee57976c2b1c27934db2f5031da5a9cee735cbf
+  app_secret: 0d7bf2b015ac0a54513e3026c573b700019215ee6b851e8e74e48512caedc336
+
+test:
+  oauth_host: 'http://localhost:5100'
+  app_id: 11b23d868f5779537a32a3c15778162c0ae3d0a03073533289ffbaf16493f316
+  app_secret: ca44c8d4a1d999431f00595553d99be2ad7671cad957d61a60ee37b0317380ef
+
+production:
+  oauth_host: 'http://localhost:5100'
+  app_id: 11b23d868f5779537a32a3c15778162c0ae3d0a03073533289ffbaf16493f316
+  app_secret: ca44c8d4a1d999431f00595553d99be2ad7671cad957d61a60ee37b0317380ef
+

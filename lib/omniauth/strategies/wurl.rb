@@ -1,0 +1,28 @@
+module OmniAuth
+  module Strategies
+    class Wurl < OmniAuth::Strategies::OAuth2
+      option :name, :wurl
+
+      omniauth_config = HashWithIndifferentAccess.new(YAML.load(File.open("#{Rails.root}/config/omniauth.yml")))
+
+      option :client_options, {
+          site: omniauth_config['oauth_host'],
+          authorize_path: "/oauth/authorize"
+      }
+
+      uid do
+        raw_info["id"]
+      end
+
+      info do
+        {name: raw_info["first"]}
+      end
+
+      def raw_info
+        @raw_info ||= access_token.get('/api/user').parsed
+        Rails.logger.debug('user info:' + @raw_info.to_s)
+        @raw_info
+      end
+    end
+  end
+end

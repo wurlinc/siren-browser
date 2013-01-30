@@ -16,3 +16,5 @@
 
 # Jasmine Headless Cache
 /.jhw-cache/
+
+/.idea/

@@ -1,5 +1,10 @@
 SirenBrowser::Application.routes.draw do
   root :to => 'application#index'
+  match '/auth/:provider/callback', to: 'sessions#create'
+  match '/auth/:provider/failure', to: 'sessions#failure'
+  match '/signout', to: 'sessions#destroy', as: 'signout'
+  match 'get_data' => 'application#get_data', :as => :get_data
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
