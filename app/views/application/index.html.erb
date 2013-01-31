@@ -19,6 +19,13 @@
       <li class="divider"></li>
       <li><a href="#">About</a></li>
       <li class="divider"></li>
+      <% if current_user %>
+        <li><%= link_to "Sign Out", signout_path %></li>
+        <li><label><%= current_user['email'] %></label></li>
+      <% else %>
+        <li><%= link_to "Wurl Sign in", "/auth/wurl" %></li>
+      <% end %>
+      <li class="divider"></li>
     </ul>
   </section>
 </nav>

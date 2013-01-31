@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 gem 'jquery-rails'
-gem 'activerecord-postgresql-adapter'
 gem 'curb'
+gem 'omniauth'
 gem 'omniauth-oauth2'
 
 # Bundle edge Rails instead:

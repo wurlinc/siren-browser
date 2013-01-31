@@ -3,10 +3,11 @@ module OmniAuth
     class Wurl < OmniAuth::Strategies::OAuth2
       option :name, :wurl
 
-      omniauth_config = HashWithIndifferentAccess.new(YAML.load(File.open("#{Rails.root}/config/omniauth.yml")))
+      config_file = File.join(Rails.root, "config", "omniauth.yml")
+      host = YAML.load_file(config_file)[Rails.env]['oauth_host']
 
       option :client_options, {
-          site: omniauth_config['oauth_host'],
+          site: host,
           authorize_path: "/oauth/authorize"
       }
 

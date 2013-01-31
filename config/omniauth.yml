@@ -1,7 +1,7 @@
 development:
   oauth_host: 'http://localhost:5100'
-  app_id: 94a14a0965f78b35f482c3f4cee57976c2b1c27934db2f5031da5a9cee735cbf
-  app_secret: 0d7bf2b015ac0a54513e3026c573b700019215ee6b851e8e74e48512caedc336
+  app_id: 6fd5676c1a462724cd390e5a7cc6002c4244972f19223e6e9166171993200634
+  app_secret: 0affb611f51ce1424ea516f8eed8e63491693323d402eab274019d059a773102
 
 test:
   oauth_host: 'http://localhost:5100'

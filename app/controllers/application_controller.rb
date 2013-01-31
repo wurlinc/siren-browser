@@ -20,22 +20,36 @@ class ApplicationController < ActionController::Base
       render :text => "Bad Request", :status => 400 and return
     end
 
-    c = Curl::Easy.new(params[:url])
-    c.perform
-    if c.response_code != 200
-      Rails.logger.error("There was a problem getting #{url}: status #{c.response_code}, response: #{c.body_str}")
-      render :text=> c.body_str, :status => c.response_code and return
+    if current_user
+      json = access_token.get(url_path(url)).parsed
+    else
+      c = Curl::Easy.new(params[:url])
+      c.perform
+      if c.response_code != 200
+        Rails.logger.error("There was a problem getting #{url}: status #{c.response_code}, response: #{c.body_str}")
+        render :text=> c.body_str, :status => c.response_code and return
+      end
+      json = ActiveSupport::JSON.decode(c.body_str)
     end
-    json = ActiveSupport::JSON.decode(c.body_str)
     Rails.logger.debug(json)
     render :json=> json
   end
 
   private
 
+  def url_path(url)
+    uri = URI.parse(url)
+    if uri.port.nil? || uri.port == 80
+      base_url = "#{uri.scheme}://#{uri.host}"
+    else
+      base_url = "#{uri.scheme}://#{uri.host}:#{uri.port}"
+    end
+    url.slice!(base_url)
+    url
+  end
+
   def oauth_client
-    Rails.logger.debug(APP_CONFIG['oauth_host'])
-    @oauth_client ||= OAuth2::Client.new(ENV["OAUTH_ID"], ENV["OAUTH_SECRET"], site: APP_CONFIG['oauth_host'])
+    @oauth_client ||= OAuth2::Client.new(WurlOauthProvider.app_id, WurlOauthProvider.app_secret, site: WurlOauthProvider.host)
   end
 
   def access_token
@@ -45,7 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= session[:user_data]
   end
   helper_method :current_user
 end

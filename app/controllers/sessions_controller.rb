@@ -1,15 +1,16 @@
 class SessionsController < ApplicationController
   def create
     auth = request.env["omniauth.auth"]
-    #user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
-    session[:user_id] = user.id
+    session[:user_id] = auth["uid"]
     session[:access_token] = auth["credentials"]["token"]
+    session[:user_data] = access_token.get('/api/user').parsed
     redirect_to root_url
   end
 
   def destroy
     session[:user_id] = nil
     session[:access_token] = nil
+    session[:user_data] = nil
     redirect_to root_url
   end
 
