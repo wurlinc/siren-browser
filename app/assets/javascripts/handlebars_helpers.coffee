@@ -36,3 +36,17 @@ Handlebars.registerHelper("debug", (context, options) ->
     console.log(context)
 )
 
+Handlebars.registerHelper("urlTemplate", (href, options) ->
+  console.log("urlTemplate href = " + href)
+  buffer = ""
+  templateNames = href.match(/\{[a-zA-Z]+\}/g)
+  if (templateNames == null) 
+     return buffer
+   
+  for templateName in templateNames
+     templateName = templateName.substring(1,templateName.length-1)
+     console.log("templateName = " + templateName)
+     buffer += options.fn({name: templateName, value: ''})
+
+  return buffer
+)
