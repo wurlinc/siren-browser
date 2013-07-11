@@ -37,14 +37,24 @@ class SirenBrowserApp
   clear_messages: ->
     @message_view.clear()
 
-  submit_action:(action_name, data) ->
-    console.debug("submit_action(#{action_name}, #{data})")
+  submit_action:(action_name, template_values, data) ->
+    console.debug("submit_action(#{action_name}, #{template_values}, #{data})")
     action = @current_response.find_action(action_name)
-    $.ajax(action.href, {
-      type: action.method
-      success: @request_success
-      error: @request_error
-      complete: @request_complete
+    href = action.href
+    if (template_values) 
+      $.each(template_values, (i, field) ->
+#//      console.debug("name = " + field.name + ", value = " + field.value + ", href = " + href)
+         href = href.replace(new RegExp("\\{" + field.name + "\\}","g"), field.value)
+      ) 
+    
+#// console.debug("href = "+href)
+
+    $.ajax(href, {
+      type: action.method,
+      success: @request_success,
+      error: @request_error,
+      complete: @request_complete,
+      data: data
     })
 
   get: ->
@@ -92,7 +102,7 @@ class SirenBrowserApp
       @set_current_uri(rel.href) if rel
 
     else
-      message = "An error occurred making the request. message: #{errorThrown}, status:#{textStatus}"
+      message = "An error occurred making the request. message: #{errorThrown}, textStatus: #{textStatus}, statusCode: #{jqXHR.status}, statusText: #{jqXHR.statusText}"
 
     @message_view.error({message:message})
 
@@ -242,8 +252,9 @@ class ActionSubmissionView extends Backbone.View
     event.preventDefault()
     target = $(event.target)
     action_name = target.data('name')
-    data = target.find('input').serializeArray()
-    @app.submit_action(action_name, data)
+    template_values = target.find('input.urlTemplate').serializeArray()
+    data = target.find('input.field').serializeArray()
+    @app.submit_action(action_name, template_values, data)
     @$el.trigger('reveal:close')
 
 class MessageView extends Backbone.View

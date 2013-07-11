@@ -194,18 +194,30 @@
 <hr />
 <div class="row">
   <form class="action_form" data-name="{{name}}">
+    {{#urlTemplate href}}
+      <div class="row">
+        <div class="two columns">
+          <label class="inline">{{name}}</label>
+        </div>
+        <div class="ten columns">
+          <input class="urlTemplate" name="{{name}}" value="{{value}}" />
+        </div>
+      </div>
+    {{/urlTemplate}}
     {{#fields}}
       <div class="row">
         <div class="two columns">
           <label class="inline">{{name}}</label>
         </div>
         <div class="ten columns">
-          <input type="{{type}}" name="{{name}}" value="{{value}}" />
+          <input class="field" type="{{type}}" name="{{name}}" value="{{value}}" />
         </div>
       </div>
     {{/fields}}
     {{^fields}}
+    {{^urlTemplate href}}
     <span>No fields provided</span>
+    {{/urlTemplate}}
     {{/fields}}
   <hr />
   {{>action_submit}}
