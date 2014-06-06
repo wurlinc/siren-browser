@@ -1,6 +1,14 @@
 class SirenBrowserApp
   constructor: ->
     console.info('started SirenBrowserApp')
+    # router
+    @router = new Backbone.Router
+      routes: 'uri/*uri' : 'set_current_uri'
+
+    @router.on 'route:set_current_uri', (uri) =>
+      @set_current_uri(uri)
+      @request_current_uri()
+
     # models
     @current_uri = new CurrentUri(uri: '')
     @current_response = new SirenResponse()
@@ -26,6 +34,8 @@ class SirenBrowserApp
     @current_uri_view.set_current_uri()
     # trigger rendering the empty response views
     @current_response.set('data', {})
+
+    Backbone.history.start()
 
   set_current_uri:(uri) ->
     console.debug("SirenBrowserApp#set_current_uri(#{uri})")
@@ -91,6 +101,7 @@ class SirenBrowserApp
     data = @parse_json(data)
 
     @current_response.set('data', data)
+    @router.navigate("uri/#{@current_uri.get('uri')}")
 
   request_error:(jqXHR, textStatus, errorThrown) =>
     console.warn("SirenBrowserApp#request_error(%o, #{textStatus}, #{errorThrown})", jqXHR)
